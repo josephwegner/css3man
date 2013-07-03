@@ -17,7 +17,7 @@ switch process.env.application_env
 		configs.cache = true
 		configs.mongoURL = process.env.MONGOLAB_URI
 		configs.port = process.env.PORT or 3333
-		configs.url = "http://css3man.com"
-		configs.host = "css3man.com"
+		configs.url = "http://www.css3man.com"
+		configs.host = "www.css3man.com"
 
 module.exports = exports = configs
