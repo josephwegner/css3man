@@ -1,0 +1,15 @@
+{
+  "name": "CSS3 Man",
+  "description": "CSS3 man by Joe Wegner",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "coffee-script": "1.3.3",
+    "simple-api": "~0.0",
+    "mongoose": "~3.5",
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}

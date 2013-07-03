@@ -1,0 +1,103 @@
+<html>
+<head>
+</head>
+	<link rel="stylesheet" type="text/css" href="/assets/style/style.css" />
+	<script type="text/javascript" src="/assets/js/angular.min.js"></script>
+	<script type="text/javascript" src="/assets/js/main.js"></script>
+<body ng-app="CSSManApp" ng-controller="CSSManCtrl">
+<div class="world">
+	<div class="sun"></div>
+	<div class="terrain">
+		<div class="human human-live">
+		<div class="head"></div>
+		<div class="body"></div>
+		<div class="legs"></div>
+	</div>
+
+	</div>
+	<div class="clouds">
+		<div class="cloud slow"></div>
+		<div class="cloud fast">CSS3 Man</div>
+		<div class="cloud medium"></div>
+	</div>
+</div>
+<div class="lower">
+	<h2>You have 3 divs and 72,000 pixels.  Go.</h2>
+	<div class="error"><span>{{error}}</span></div>
+	<div class="person-editor">
+		<div class="inputs">
+			<div id="tabs">
+				<div ng-class="{active: activeTab == 'head'}" class="head" ng-click="activeTab = 'head'"></div>
+				<div ng-class="{active: activeTab == 'body'}" class="body" ng-click="activeTab = 'body'"></div>
+				<div ng-class="{active: activeTab == 'legs'}" class="legs" ng-click="activeTab = 'legs'"></div>
+				<div ng-class="{active: activeTab == 'animations'}" class="animations" ng-click="activeTab = 'animations'"></div>
+			</div>
+			<div id="editors">
+				<div id="head" ng-show="activeTab == 'head'">
+					<label>Head</label><textarea ng-model="preview_head_css"></textarea>
+					<label>:before</label><textarea ng-model="preview_head_before_css"></textarea>
+					<label>:after</label><textarea ng-model="preview_head_after_css"></textarea>
+				</div>
+				<div id="body" ng-show="activeTab == 'body'">
+					<label>Body</label><textarea ng-model="preview_body_css"></textarea>
+					<label>:before</label><textarea ng-model="preview_body_before_css"></textarea>
+					<label>:after</label><textarea ng-model="preview_body_after_css"></textarea>
+				</div>
+				<div id="legs" ng-show="activeTab == 'legs'">
+					<label>Legs</label><textarea ng-model="preview_legs_css"></textarea>
+					<label>:before</label><textarea ng-model="preview_legs_before_css"></textarea>
+					<label>:after</label><textarea ng-model="preview_legs_after_css"></textarea>
+				</div>
+				<div id="animations" ng-show="activeTab == 'animations'">
+					<label>Animations</label><textarea ng-model="preview_animations_css"></textarea>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="preview">
+			<superStyle selector="" styles="preview_animations_css" verify="verify_animations"></superStyle>
+
+			<superStyle selector="'.human-preview .head'" styles="preview_head_css" verify="verify_css"></superStyle>
+			<superStyle selector="'.human-preview .head:before'" styles="preview_head_before_css" verify="verify_css"></superStyle>
+			<superStyle selector="'.human-preview .head:after'" styles="preview_head_after_css" verify="verify_css"></superStyle>
+
+			<superStyle selector="'.human-preview .body'" styles="preview_body_css" verify="verify_css"></superStyle>
+			<superStyle selector="'.human-preview .body:before'" styles="preview_body_before_css" verify="verify_css"></superStyle>
+			<superStyle selector="'.human-preview .body:after'" styles="preview_body_after_css" verify="verify_css"></superStyle>
+
+			<superStyle selector="'.human-preview .legs'" styles="preview_legs_css" verify="verify_css"></superStyle>
+			<superStyle selector="'.human-preview .legs:before'" styles="preview_legs_before_css" verify="verify_css"></superStyle>
+			<superStyle selector="'.human-preview .legs:after'" styles="preview_legs_after_css" verify="verify_css"></superStyle>
+
+			<div class="human human-preview">
+				<div class="head"></div>
+				<div class="body"></div>
+				<div class="legs"></div>
+			</div>
+			<button class="submit" ng-click="sendMan();">Submit</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div id="footer">
+	<div id="footer_wrap">
+		<div id="message">
+			<span class="CSSMan">CSS Man</span>
+			<span class="brought">brought to you by</span>
+			<a class="me" href="http://www.twitter.com/Joe_Wegner">Joe Wegner</a>
+			<span class="and">and</span>
+			<a class="wd" href="http://www.wegnerdesign.com">WegnerDesign</a>
+			<span class="made-with">Made with <a href="http://angularjs.org">AngularJS</a>, <a href="http://nodejs.org">nodeJS</a>, and <a class="love" ng-click="footer_guy_head = 'heart'">love</a>.</span>
+		</div>
+		<div id="goodbye">
+			<div class="human human-footer">
+				<div ng-class="footer_guy_head"></div>
+				<div class="body"></div>
+				<div class="legs"></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+</body>
+</html>
