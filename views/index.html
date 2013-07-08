@@ -13,10 +13,7 @@
 			<div class="body"></div>
 			<div class="legs"></div>
 		</div>-->
-		<human 
-			ng-repeat="human in humans" 
-			human="human">
-		</human>
+		<human ng-repeat="human in humans" ng-click="grabMan" human="human"></human>
 	</div>
 
 	</div>
@@ -60,19 +57,19 @@
 			<div class="clear"></div>
 		</div>
 		<div class="preview">
-			<superStyle selector="" styles="preview_animations_css" verify="verify_animations"></superStyle>
+			<superStyle selector="" styles="preview_animations_css" verify="verify_animations" key="userKey"></superStyle>
 
-			<superStyle selector="'.human-preview .head'" styles="preview_head_css" verify="verify_css"></superStyle>
-			<superStyle selector="'.human-preview .head:before'" styles="preview_head_before_css" verify="verify_css"></superStyle>
-			<superStyle selector="'.human-preview .head:after'" styles="preview_head_after_css" verify="verify_css"></superStyle>
+			<superStyle selector="'.human-preview .head'" styles="preview_head_css" verify="verify_css" key="userKey"></superStyle>
+			<superStyle selector="'.human-preview .head:before'" styles="preview_head_before_css" verify="verify_css" key="userKey"></superStyle>
+			<superStyle selector="'.human-preview .head:after'" styles="preview_head_after_css" verify="verify_css" key="userKey"></superStyle>
 
-			<superStyle selector="'.human-preview .body'" styles="preview_body_css" verify="verify_css"></superStyle>
-			<superStyle selector="'.human-preview .body:before'" styles="preview_body_before_css" verify="verify_css"></superStyle>
-			<superStyle selector="'.human-preview .body:after'" styles="preview_body_after_css" verify="verify_css"></superStyle>
+			<superStyle selector="'.human-preview .body'" styles="preview_body_css" verify="verify_css" key="userKey"></superStyle>
+			<superStyle selector="'.human-preview .body:before'" styles="preview_body_before_css" verify="verify_css" key="userKey"></superStyle>
+			<superStyle selector="'.human-preview .body:after'" styles="preview_body_after_css" verify="verify_css" key="userKey"></superStyle>
 
-			<superStyle selector="'.human-preview .legs'" styles="preview_legs_css" verify="verify_css"></superStyle>
-			<superStyle selector="'.human-preview .legs:before'" styles="preview_legs_before_css" verify="verify_css"></superStyle>
-			<superStyle selector="'.human-preview .legs:after'" styles="preview_legs_after_css" verify="verify_css"></superStyle>
+			<superStyle selector="'.human-preview .legs'" styles="preview_legs_css" verify="verify_css" key="userKey"></superStyle>
+			<superStyle selector="'.human-preview .legs:before'" styles="preview_legs_before_css" verify="verify_css" key="userKey"></superStyle>
+			<superStyle selector="'.human-preview .legs:after'" styles="preview_legs_after_css" verify="verify_css" key="userKey"></superStyle>
 
 			<div class="human human-preview">
 				<div class="head"></div>

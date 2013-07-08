@@ -31,11 +31,16 @@ MenController =
 			req.on "end", (chunk) =>
 				man = JSON.parse data
 
+				if not man.css? or not man.key?
+					res.statusCode = 400
+					res.end JSON.stringify
+						error: "CSS and Key fields required"
+
 				for index, data of man.css
 					if index is "animations"
-						valid = @helpers.validateAnimationCSS data
+						valid = @helpers.validateAnimationCSS data, man.key
 					else
-						valid = @helpers.validateCSS data
+						valid = @helpers.validateCSS data, man.key
 
 					if not valid
 						res.statusCode = 400
@@ -44,7 +49,7 @@ MenController =
 
 				Men = mongoose.model "Men"
 
-				Men.createMan man.css, (err, man) ->
+				Men.createMan man.key, man.css, (err, man) ->
 					if(err)
 						res.statusCode = 500
 						res.end()
@@ -65,7 +70,7 @@ MenController =
 
 
 	helpers: 
-		validateCSS: (css) ->
+		validateCSS: (css, key) ->
 			console.log css
 			if css.indexOf("{") != -1 || css.indexOf("}") != -1
 				return false
@@ -76,9 +81,15 @@ MenController =
 			if css.indexOf("\"") != -1
 				return false
 
+			animations = css.match /keyframes[^{]*{/g
+			if animations
+				for animation in animations
+					if animation.indexOf(key) == -1
+						return false
+
 			return true
 
-		validateAnimationCSS: (css) ->
+		validateAnimationCSS: (css, key) ->
 			justOpens = css.replace /[^{]+/g, ""
 			justCloses = css.replace /[^}]+/g, ""
 
@@ -91,6 +102,12 @@ MenController =
 
 			if css.indexOf("\"") != -1
 				return false
+
+			animations = css.match /keyframes[^{]*{/g
+			if animations
+				for animation in animations
+					if animation.indexOf(key) == -1
+						return false
 			
 			return true
 

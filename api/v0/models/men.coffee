@@ -1,6 +1,7 @@
 menSchema = mongoose.Schema
 	created: {type: Number, default: Date.now}
 	likes: {type: Number, default: 0}
+	key: String
 	css:
 		head: String
 		head_before: String
@@ -23,9 +24,10 @@ menSchema.static "getPopulation", (cb) ->
 			cb?(null, docs)
 			return false
 
-menSchema.static 'createMan', (css, cb) ->
-
+menSchema.static 'createMan', (key, css, cb) ->
+	console.log key, css
 	newMan = new Men
+		key: key
 		css: css
 
 	newMan.save cb

@@ -9,34 +9,36 @@
 	app.directive( 'superstyle', function( $compile ) {
 	  return {
 	    restrict: 'E',
-	    scope: { selector: "=selector", styles: "=styles", verify: "=verify" },
+	    scope: { selector: "=selector", styles: "=styles", verify: "=verify", key: "=key" },
 	    link: function ( scope, element, attrs ) {
 	      var el;
 
 	      scope.$watch( 'selector', function () {
-	        
-	        el = typeof(scope.selector) !== "undefined"  ? 
-	        	$compile( '<style> '+scope.selector+' { '+scope.styles+' } </style>' )( scope ) :
-	        	$compile( '<style>'+scope.styles+'</style>' )( scope )
+	      	if(typeof(scope.key) === "string") {
+		        el = typeof(scope.selector) !== "undefined"  ? 
+		        	$compile( '<style> '+scope.selector+' { '+scope.styles+' } </style>' )( scope ) :
+		        	$compile( '<style>'+scope.styles+'</style>' )( scope )
 
-	        element.html("");
-	        element.append( el );
+		        element.html("");
+		        element.append( el );
+	        }
 	      });
 
 	       scope.$watch( 'styles', function() {
+	       	if(typeof(scope.key) === "string") {
+		       	if(typeof(scope.verify) === "function") {
+		       		if(!scope.verify(scope.key, scope.styles)) {
+		       			return false;
+		       		}
+		       	}
 
-	       	if(typeof(scope.verify) === "function") {
-	       		if(!scope.verify(scope.styles)) {
-	       			return false;
-	       		}
-	       	}
+		        el = typeof(scope.selector) !== "undefined"  ? 
+		        	$compile( '<style> '+scope.selector+' { '+scope.styles+' } </style>' )( scope ) :
+		        	$compile( '<style>'+scope.styles+'</style>' )( scope )
 
-	        el = typeof(scope.selector) !== "undefined"  ? 
-	        	$compile( '<style> '+scope.selector+' { '+scope.styles+' } </style>' )( scope ) :
-	        	$compile( '<style>'+scope.styles+'</style>' )( scope )
-
-	        element.html("");
-	        element.append( el );
+		        element.html("");
+		        element.append( el );
+	    	}
 	      })
 	    }
 	  };
@@ -47,15 +49,18 @@
 			restrict: 'E',
 			templateUrl: "/assets/templates/human.html",
 			scope: {
-				human: "=human"
+				human: "=human", 
+				click: "=ngClick"
 			}
 		};
 	});
 
 	app.controller('CSSManCtrl', function($scope, $http) {
+		$scope.userKey = randomString(5);
+
 		$scope.activeTab = 'head';
 
-		$scope.preview_head_css = "height: 14%;\nwidth: 25%;\nposition: relative;\nleft: 60%;\nborder-radius: 30px;\nbackground-color: white;\nanimation: headBounce 1.5s linear infinite;\n-webkit-animation: headBounce 1.5s linear infinite;\n-moz-animation: headBounce 1.5s linear infinite;\nmargin: 0 0 0 -13%;\ntop: 8%;";
+		$scope.preview_head_css = "height: 14%;\nwidth: 25%;\nposition: relative;\nleft: 60%;\nborder-radius: 30px;\nbackground-color: white;\nanimation: "+$scope.userKey+"_headBounce 1.5s linear infinite;\n-webkit-animation: "+$scope.userKey+"_headBounce 1.5s linear infinite;\n-moz-animation: "+$scope.userKey+"_headBounce 1.5s linear infinite;\nmargin: 0 0 0 -13%;\ntop: 8%;";
 		$scope.preview_head_before_css = "content: ' ';\ndisplay: block;\nheight: 50%;\nwidth: 70%;\nborder-radius: 30px;\nbackground-color: white;\nposition: absolute;\nleft: -12%;\ntop: 20%"
 		$scope.preview_head_after_css = "content: ' ';\ndisplay: block;\nheight: 50%;\nwidth: 70%;\nborder-radius: 30px;\nbackground-color: white;\nposition: absolute;\nright: -12%;\ntop: 20%;"
 	
@@ -67,13 +72,13 @@
 		$scope.preview_legs_before_css = "content: ' ';\ndisplay: block;\nheight: 50%;\nwidth: 50%;\nborder-radius: 30px;\nposition: absolute;\nleft: 0px;\ntop: -14%;\nbackground-color: white;"
 		$scope.preview_legs_after_css = "content: ' ';\ndisplay: block;\nheight: 50%;\nwidth: 50%;\nborder-radius: 30px;\nposition: absolute;\nright: -14%;\ntop: -14%;\nbackground-color: white;";
 
-		$scope.preview_animations_css = "@keyframes headBounce {\n	0% {\n		margin: 0 0 0 -13%;\n		left: 55%;\n	}\n	25% {\n		margin: -8% 0 8% -13%;\n		left: 50%;\n	}\n	50% {\n		margin: 0 0 0 -13%;\n		left: 45%;\n	}\n	75% {\n		margin: -8% 0 8% -13%;\n		left: 50%;\n	}\n	100% {\n		margin: 0 0 0 -13%;\n		left: 55%;\n	}\n}\n\n@-webkit-keyframes headBounce {\n	0% {\n		margin: 0 0 0 -13%;\n		left: 55%;\n	}\n	25% {\n		margin: -8% 0 8% -13%;\n		left: 50%;\n	}\n	50% {\n		margin: 0 0 0 -13%;\n		left: 45%;\n	}\n	75% {\n		margin: -8% 0 8% -13%;\n		left: 50%;\n	}\n	100% {\n		margin: 0 0 0 -13%;\n		left: 55%;\n	}\n}";
+		$scope.preview_animations_css = "@keyframes "+$scope.userKey+"_headBounce {\n	0% {\n		margin: 0 0 0 -13%;\n		left: 55%;\n	}\n	25% {\n		margin: -8% 0 8% -13%;\n		left: 50%;\n	}\n	50% {\n		margin: 0 0 0 -13%;\n		left: 45%;\n	}\n	75% {\n		margin: -8% 0 8% -13%;\n		left: 50%;\n	}\n	100% {\n		margin: 0 0 0 -13%;\n		left: 55%;\n	}\n}\n\n@-webkit-keyframes "+$scope.userKey+"_headBounce {\n	0% {\n		margin: 0 0 0 -13%;\n		left: 55%;\n	}\n	25% {\n		margin: -8% 0 8% -13%;\n		left: 50%;\n	}\n	50% {\n		margin: 0 0 0 -13%;\n		left: 45%;\n	}\n	75% {\n		margin: -8% 0 8% -13%;\n		left: 50%;\n	}\n	100% {\n		margin: 0 0 0 -13%;\n		left: 55%;\n	}\n}";
 	
 		$scope.footer_guy_head = "head";
 
 		$scope.error = "";
 
-		$scope.verify_css = function(css) {
+		$scope.verify_css = function(key, css) {
 			if(css.indexOf("{") !== -1 || css.indexOf("}") !== -1) {
 				$scope.error = "Brackets?  That seems like cheating!"
 				return false;
@@ -89,11 +94,21 @@
 				return false;
 			}
 
+			var animations = css.match(/keyframes[^{]*{/g);
+			if(animations) {
+				for(var i=0, max=animations.length; i<max; i++) {
+					if(animations[i].indexOf($scope.userKey) === -1) {
+						$scope.error = "I know it's a pain, but we require all animations to have a user key in the name.  Yours is "+key;
+						return false;
+					}
+				}
+			}
+
 			$scope.error = "";
 			return true;
 		}
 
-		$scope.verify_animations = function(css) {
+		$scope.verify_animations = function(key, css) {
 			var justOpens = css.replace(/[^{]+/g, "");
 			var justCloses = css.replace(/[^}]+/g, "");
 
@@ -112,12 +127,23 @@
 				return false;
 			}
 
+			var animations = css.match(/keyframes[^{]*{/g);
+			if(animations) {
+				for(var i=0, max=animations.length; i<max; i++) {
+					if(animations[i].indexOf($scope.userKey) === -1) {
+						$scope.error = "I know it's a pain, but we require all animations to have a user key in the name.  Yours is "+key;
+						return false;
+					}
+				}
+			}
+
 			$scope.error = "";
 			return true;
 		}
 
 		$scope.sendMan = function() {
 			var dat = {
+				key: $scope.userKey,
 				css: {
 					head: $scope.preview_head_css,
 					head_before: $scope.preview_head_before_css,
@@ -137,9 +163,38 @@
 			});
 		}
 
+		$scope.grabMan = function(human) {
+
+			var replaceKey = new RegExp(human.key, "g");
+
+			$scope.preview_head_css = human.css.head.replace(replaceKey, $scope.userKey);
+			$scope.preview_head_before_css = human.css.head_before.replace(replaceKey, $scope.userKey);
+			$scope.preview_head_after_css = human.css.head_after.replace(replaceKey, $scope.userKey);
+			$scope.preview_body_css = human.css.body.replace(replaceKey, $scope.userKey);
+			$scope.preview_body_before_css = human.css.body_before.replace(replaceKey, $scope.userKey);
+			$scope.preview_body_after_css = human.css.body_after.replace(replaceKey, $scope.userKey);
+			$scope.preview_legs_css = human.css.legs.replace(replaceKey, $scope.userKey);
+			$scope.preview_legs_before_css = human.css.legs_before.replace(replaceKey, $scope.userKey);
+			$scope.preview_legs_after_css = human.css.legs_after.replace(replaceKey, $scope.userKey);
+			$scope.preview_animations_css = human.css.animations.replace(replaceKey, $scope.userKey);
+		}
+
 		$http.get("/api/v0/men").success(function(data, status, headers, config) {
 			$scope.humans = data;
 		});
 	});
+
+	function randomString(len) {
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+
+		var str = "";
+		for(var i=0; i<len; i++) {
+			str += possible[Math.floor(Math.random() * possible.length)];
+		}
+
+		return str;
+	}
+
+
 
 })();
