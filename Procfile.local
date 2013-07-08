@@ -1,2 +1,2 @@
-web: node runner.js
 mongo: mongod
+web: node runner.js

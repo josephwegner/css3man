@@ -21,8 +21,6 @@ serveStatic = require "#{__dirname}/lib/staticFiles.coffee"
 console.log "All Modules Loaded"
 console.log "Building CSS3 Man Server in #{process.env.application_env} environment"
 
-console.log(configs);
-
 mongoose.connect configs.mongoURL, (err) ->
 	
 	console.log err if err

@@ -1,17 +1,22 @@
 <html>
 <head>
-</head>
 	<link rel="stylesheet" type="text/css" href="/assets/style/style.css" />
 	<script type="text/javascript" src="/assets/js/angular.min.js"></script>
 	<script type="text/javascript" src="/assets/js/main.js"></script>
+</head>
 <body ng-app="CSSManApp" ng-controller="CSSManCtrl">
 <div class="world">
 	<div class="sun"></div>
 	<div class="terrain">
-		<div class="human human-live">
-		<div class="head"></div>
-		<div class="body"></div>
-		<div class="legs"></div>
+		<!--<div class="human human-live">
+			<div class="head"></div>
+			<div class="body"></div>
+			<div class="legs"></div>
+		</div>-->
+		<human 
+			ng-repeat="human in humans" 
+			human="human">
+		</human>
 	</div>
 
 	</div>

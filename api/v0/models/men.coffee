@@ -13,6 +13,16 @@ menSchema = mongoose.Schema
 		legs_after: String
 		animations: String
 
+menSchema.static "getPopulation", (cb) ->
+	this.find {}, (err, docs) ->
+		if err
+			console.log "Error getting population"
+			cb?(err)
+			return false
+		else
+			cb?(null, docs)
+			return false
+
 menSchema.static 'createMan', (css, cb) ->
 
 	newMan = new Men
@@ -22,17 +32,20 @@ menSchema.static 'createMan', (css, cb) ->
 
 menSchema.static 'likeMan', (id, cb) ->
 
-	this.find {id: id}, (err, docs) ->
+	this.find {'_id': id}, (err, docs) ->
 		if err
-			console.log "Error looking for a man to look", err
-			return 500
+			console.log "Error finding man with id #{id}", err
+			cb?(500);
+			return false
 		else if docs.length <= 0
-			console.log "Coudldn't find a man with id #{id}"
-			return 404
+			console.log "Couldn't find a man with id #{id}"
+			cb?(404);
+			return false
 		else
+			console.log "like man"
 			docs[0].likes++
 			docs[0].save()
-			return true
+			cb?(true)
 
 ###
 blockSchema.static 'isBlocked', (service, type, id, cb) ->

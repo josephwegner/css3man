@@ -42,6 +42,16 @@
 	  };
 	});
 
+	app.directive("human", function() {
+		return {
+			restrict: 'E',
+			templateUrl: "/assets/templates/human.html",
+			scope: {
+				human: "=human"
+			}
+		};
+	});
+
 	app.controller('CSSManCtrl', function($scope, $http) {
 		$scope.activeTab = 'head';
 
@@ -74,6 +84,11 @@
 				return false;
 			}
 
+			if(css.indexOf("\"") !== -1) {
+				$scope.error = "I'm all for double quotes, but please use single ones here"
+				return false;
+			}
+
 			$scope.error = "";
 			return true;
 		}
@@ -92,6 +107,11 @@
 				return false;
 			}
 
+			if(css.indexOf("\"") !== -1) {
+				$scope.error = "I'm all for double quotes, but please use single ones here"
+				return false;
+			}
+
 			$scope.error = "";
 			return true;
 		}
@@ -100,7 +120,7 @@
 			var dat = {
 				css: {
 					head: $scope.preview_head_css,
-					head_before: $scope.preview_before_head_css,
+					head_before: $scope.preview_head_before_css,
 					head_after: $scope.preview_head_after_css,
 					body: $scope.preview_body_css,
 					body_before: $scope.preview_body_before_css,
@@ -116,6 +136,10 @@
 				console.log(data, status, headers, config);
 			});
 		}
+
+		$http.get("/api/v0/men").success(function(data, status, headers, config) {
+			$scope.humans = data;
+		});
 	});
 
 })();
