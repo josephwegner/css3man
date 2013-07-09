@@ -57,16 +57,43 @@
 
 				scope.distance = possibilities[Math.floor(Math.random() * possibilities.length)];
 
-				setTimeout(function() {
-					element.children().css('top', -50);
-				}, 10);
-				eles.push(element);
+				var styleTag = "<style type='text/css'>";
+				styleTag	+= scope.human.css.animations;
+				styleTag	+= "#human_" + scope.human._id + " .head { ";
+				styleTag	+= 		scope.human.css.head;
+				styleTag 	+= "}";
+				styleTag	+= "#human_" + scope.human._id + " .head:before { ";
+				styleTag	+= 		scope.human.css.head_before;
+				styleTag 	+= "}";
+				styleTag	+= "#human_" + scope.human._id + " .head:after { ";
+				styleTag	+= 		scope.human.css.head_after;
+				styleTag 	+= "}";
+				styleTag	+= "#human_" + scope.human._id + " .legs { ";
+				styleTag	+= 		scope.human.css.legs;
+				styleTag 	+= "}";
+				styleTag	+= "#human_" + scope.human._id + " .legs:before { ";
+				styleTag	+= 		scope.human.css.legs_before;
+				styleTag 	+= "}";
+				styleTag	+= "#human_" + scope.human._id + " .legs:after { ";
+				styleTag	+= 		scope.human.css.legs_after;
+				styleTag 	+= "}";
+				styleTag	+= "#human_" + scope.human._id + " .body { ";
+				styleTag	+= 		scope.human.css.body;
+				styleTag 	+= "}";
+				styleTag	+= "#human_" + scope.human._id + " .body:before { ";
+				styleTag	+= 		scope.human.css.body_before;
+				styleTag 	+= "}";
+				styleTag	+= "#human_" + scope.human._id + " .body:after { ";
+				styleTag	+= 		scope.human.css.body_after;
+				styleTag 	+= "}";
+				styleTag 	+= "</style>"
+
+				element.prepend(styleTag);
 			}
 		};
 	});
 
 	app.controller('CSSManCtrl', function($scope, $http) {
-		eles = [];
 		$scope.userKey = randomString(5);
 
 		$scope.activeTab = 'head';
@@ -195,7 +222,7 @@
 		$http.get("/api/v0/men").success(function(data, status, headers, config) {
 			var i = 0;
 
-			var drawInterval = setInterval(function() {
+			/*var drawInterval = setInterval(function() {
 				if(i < data.length) {
 					$scope.addMan(data[i]);
 				} else {
@@ -204,7 +231,8 @@
 
 
 				i++;
-			}, 100);
+			}, 100);*/
+			$scope.humans = data;
 		});
 
 		$scope.addMan = function(man) {
