@@ -253,7 +253,7 @@
 
 		$scope.share = function() {
 			url = window.location.protocol + "//" + window.location.host + "#" + $scope.humanID
-			window.open("https://twitter.com/intent/tweet?url="+encodeURIComponent(url)+"&text=Check%20out%20my%20%23CSS3Man!",'_blank');
+			window.open("https://twitter.com/intent/tweet?text=Check%20out%20my%20%23CSS3Man! "+encodeURIComponent(url),'_blank');
 		}
 	});
 
