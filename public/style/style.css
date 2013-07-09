@@ -25,15 +25,15 @@ body {
 }
 
 .human-live.close {
-	margin-right: 5px;
+	margin-right: .5%;
 }
 
 .human-live.medium {
-	margin-right: 30px;
+	margin-right: 2.5%;
 }
 
 .human-live.far {
-	margin-right: 100px;
+	margin-right: 9%;
 }
 
 .human-footer .head {
