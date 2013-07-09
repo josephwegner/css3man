@@ -10,8 +10,28 @@ MenController =
 		getPopulation:
 			method: "GET"
 			pieces: []
+		getMan:
+			method: "GET"
+			pieces: ["*id"]
 
 	actions:
+		getMan: (req, res, params) ->
+			Men = mongoose.model "Men"
+
+			if params.id?
+				Men.getById params.id, (err, man) ->
+					if err
+						console.log err
+						res.statusCode = 500
+						res.end()
+					else if !man.length
+						res.statusCode = 404
+						res.end()
+					else
+						res.end JSON.stringify man[0]
+			else
+				res.statusCode = 404
+				res.end()
 		getPopulation: (req, res, params) ->
 			Men = mongoose.model "Men"
 

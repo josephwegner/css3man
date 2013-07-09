@@ -2,10 +2,6 @@
 
 	var app = angular.module('CSSManApp', []);
 
-	app.config(function($routeProvider) {
-		$routeProvider.when('/', {controller: 'CSSManCtrl'}).otherwise({redirectTo: '/'})
-	});
-
 	app.directive( 'superstyle', function( $compile ) {
 	  return {
 	    restrict: 'E',
@@ -93,10 +89,13 @@
 		};
 	});
 
-	app.controller('CSSManCtrl', function($scope, $http) {
+	app.controller('CSSManCtrl', function($scope, $http, $routeParams) {
 		$scope.userKey = randomString(5);
 
 		$scope.activeTab = 'head';
+		$scope.recentlySubmitted = false;
+		$scope.submitted = false;
+		$scope.humanID = "";
 
 		$scope.preview_head_css = "height: 14%;\nwidth: 25%;\nposition: relative;\nleft: 60%;\nborder-radius: 30px;\nbackground-color: white;\nanimation: "+$scope.userKey+"_headBounce 1.5s linear infinite;\n-webkit-animation: "+$scope.userKey+"_headBounce 1.5s linear infinite;\n-moz-animation: "+$scope.userKey+"_headBounce 1.5s linear infinite;\nmargin: 0 0 0 -13%;\ntop: 8%;";
 		$scope.preview_head_before_css = "content: ' ';\ndisplay: block;\nheight: 50%;\nwidth: 70%;\nborder-radius: 30px;\nbackground-color: white;\nposition: absolute;\nleft: -12%;\ntop: 20%"
@@ -179,6 +178,8 @@
 			return true;
 		}
 
+		var recentTimer;
+
 		$scope.sendMan = function() {
 			var dat = {
 				key: $scope.userKey,
@@ -197,8 +198,17 @@
 			};
 
 			$http.post("/api/v0/men/create", dat).success(function(data, status, headers, config) {
-				console.log(data, status, headers, config);
+				$scope.grabMan(data);
 			});
+
+			$scope.recentlySubmitted = true;
+			$scope.submitted = true;
+
+			clearTimeout(recentTimer);
+			recentTimer = setTimeout(function() {
+				$scope.recentlySubmitted = false;
+				$scope.$apply();
+			}, 2000);
 		}
 
 		$scope.grabMan = function(human) {
@@ -215,29 +225,35 @@
 			$scope.preview_legs_before_css = human.css.legs_before.replace(replaceKey, $scope.userKey);
 			$scope.preview_legs_after_css = human.css.legs_after.replace(replaceKey, $scope.userKey);
 			$scope.preview_animations_css = human.css.animations.replace(replaceKey, $scope.userKey);
+
+			$http.put("/api/v0/men/like/"+human._id);
+
+			$scope.humanID = human['_id'];
+			window.location.hash = human['_id'];
 		}
 
 		$scope.humans = [];
 
 		$http.get("/api/v0/men").success(function(data, status, headers, config) {
-			var i = 0;
-
-			/*var drawInterval = setInterval(function() {
-				if(i < data.length) {
-					$scope.addMan(data[i]);
-				} else {
-					clearInterval(drawInterval);
-				}
-
-
-				i++;
-			}, 100);*/
 			$scope.humans = data;
 		});
+
+		if(window.location.hash !== "") {
+			var id = window.location.hash.replace("#", "");
+
+			$http.get("/api/v0/men/"+id).success(function(data, status, headers, configs) {
+				$scope.grabMan(data);
+			});
+		}
 
 		$scope.addMan = function(man) {
 			$scope.humans.push(man);
 			$scope.$apply();
+		}
+
+		$scope.share = function() {
+			url = window.location.protocol + "//" + window.location.host + "#" + $scope.humanID
+			window.open("https://twitter.com/intent/tweet?url="+encodeURIComponent(url)+"&text=Check%20out%20my%20%23CSS3Man!",'_blank');
 		}
 	});
 

@@ -87,7 +87,9 @@
 				<div class="body"></div>
 				<div class="legs"></div>
 			</div>
-			<button class="submit" ng-click="sendMan();">Submit</div>
+			<button class="submit" ng-click="sendMan();">Submit</button>
+			<button class="share" ng-class="{active: submitted==true}" ng-click="share();">Share</button>
+			<span class="thanks" ng-class="{active: recentlySubmitted==true}">Thanks!</span>
 		</div>
 		<div class="clear"></div>
 	</div>

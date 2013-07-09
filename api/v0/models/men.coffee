@@ -14,15 +14,56 @@ menSchema = mongoose.Schema
 		legs_after: String
 		animations: String
 
+menSchema.static "getById", (id, cb) ->
+	this.find { '_id': id }, (err, doc) ->
+		if err
+			console.log "Error getting man by id"
+			cb?(err)
+			return true
+		else
+			cb?(null, doc)
+			return false
+
+	return true
+
 menSchema.static "getPopulation", (cb) ->
-	this.find().limit(20).sort({ created: "desc"}).exec (err, docs) ->
+	send = false
+	pop = []
+
+	this.find().limit(10).sort({ created: "desc"}).exec (err, docs) ->
 		if err
 			console.log "Error getting population"
 			cb?(err)
 			return false
-		else
-			cb?(null, docs)
+		
+		pop = pop.concat docs
+
+		console.log docs
+
+		if send
+			console.log pop
+			cb?(null, pop)
 			return false
+
+		send = true
+
+	this.find().limit(10).sort({ likes: "desc"}).exec (err, docs) ->
+		if err
+			console.log "Error getting population"
+			cb?(err)
+			return false
+		
+		pop = pop.concat docs
+
+		console.log docs
+
+		if send
+			console.log pop
+			cb?(null, pop)
+			return false
+
+		send = true
+
 
 menSchema.static 'createMan', (key, css, cb) ->
 	console.log key, css

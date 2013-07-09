@@ -608,19 +608,53 @@ body {
 	text-align: center;
 }
 
-button.submit {
+button.submit, button.share {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
+
     border: 1px solid white;
     background: none;
     color: white;
     padding: 7px 10px;
     border-radius: 5px;
     cursor:  pointer;
-
+	bottom: 5px;
+    right: 5px;
 }
 
-button.submit:hover {
+button.submit {
+	z-index: 10;
+}
+
+button.share {
+	opacity: 0;
+	transition: .5s opacity, .5s right;
+	-webkit-transition: .5s opacity, .5s right;
+	-moz-transition: .5s opacity, .5s right;
+}
+
+button.share.active {
+	opacity: 1;
+	right: 80px;
+}
+
+button.submit:hover, button.share:hover {
 	background-color: #448e6d;
+}
+
+.thanks {
+	display: block;
+	position: absolute;
+	right: 12px;
+	bottom: 12px;
+	font-size: 14px;
+	color: #448e6d;
+	opacity: 0;
+	transition: .5s bottom, .5s opacity;
+	-webkit-transition: .5s bottom, .5s opacity;
+	-moz-transition: .5s bottom, .5s opacity;
+}
+
+.thanks.active {
+	bottom: 50px;
+	opacity: 1;
 }
