@@ -13,8 +13,41 @@ MenController =
 		getMan:
 			method: "GET"
 			pieces: ["*id"]
+		getShort:
+			method: "GET"
+			pieces:["short", "*id"]
 
 	actions:
+		getShort: (req, res, params) ->
+			Men = mongoose.model "Men"
+
+			if params.id?
+				Men.getById params.id, (err, man) ->
+					if err
+						console.log err
+						res.statusCode = 500
+						res.end()
+					else if !man.length
+						res.statusCode = 404
+						res.end()
+					else
+						url = "http://www.css3man.com/##{man[0]['_id']}"
+						console.log url
+						https.get "https://api-ssl.bitly.com/v3/shorten?login=josephwegner&apiKey=R_6c8d9f5aea7ac4784e83ef5eafeb229f&longURL=#{encodeURIComponent(url)}", (resp) ->
+							data = ""
+
+							resp.on 'data', (chunk) ->
+								data += chunk
+
+							resp.on 'end', () ->
+								bitly = JSON.parse data
+								console.log bitly
+
+								res.end bitly.data.url
+			else
+				res.statusCode = 404
+				res.end()
+
 		getMan: (req, res, params) ->
 			Men = mongoose.model "Men"
 

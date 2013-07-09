@@ -252,8 +252,9 @@
 		}
 
 		$scope.share = function() {
-			url = window.location.protocol + "//" + window.location.host + "#" + $scope.humanID
-			window.open("https://twitter.com/intent/tweet?text=Check%20out%20my%20%23CSS3Man! "+encodeURIComponent(url),'_blank');
+			$http.get("/api/v0/men/short/"+$scope.humanID).success(function(data) {
+				window.open("https://twitter.com/intent/tweet?text=Check%20out%20my%20%23CSS3Man!%20"+encodeURIComponent(data),'_blank');
+			});
 		}
 	});
 
