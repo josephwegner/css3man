@@ -15,7 +15,7 @@ menSchema = mongoose.Schema
 		animations: String
 
 menSchema.static "getPopulation", (cb) ->
-	this.find {}, (err, docs) ->
+	this.find().limit(20).sort({ created: "desc"}).exec (err, docs) ->
 		if err
 			console.log "Error getting population"
 			cb?(err)

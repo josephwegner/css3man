@@ -14,14 +14,29 @@ body {
 }
 
 .human-live {
-	top: -50px;
+	/*top: -50px;*/
 	height: 50px;
 	width: 28px;
 	position: relative;
 	cursor: pointer;
+	transition: top .2s;
+	-webkit-transition: top .2s;
+	-moz-transition: top .2s;
 }
-/*
-.human-live .head, .human-footer .head {
+
+.human-live.close {
+	margin-right: 5px;
+}
+
+.human-live.medium {
+	margin-right: 30px;
+}
+
+.human-live.far {
+	margin-right: 100px;
+}
+
+.human-footer .head {
 	height: 14%;
 	width: 25%;
 	position: relative;
@@ -35,7 +50,7 @@ body {
 	top: 8%;
 }
 
-.human-live .head:before, .human-footer .head:before {
+.human-footer .head:before {
 	content: " ";
 	display: block;
 	height: 50%;
@@ -47,7 +62,7 @@ body {
 	top: 20%
 }
 
-.human-live .head:after, .human-footer .head:after {
+.human-footer .head:after {
 	content: " ";
 	display: block;
 	height: 50%;
@@ -128,7 +143,7 @@ body {
 	}
 }
 
-.human-live .body, .human-footer .body {
+.human-footer .body {
 	position: relative;
 	top: 9%;
 	left: 30%;
@@ -138,7 +153,7 @@ body {
 	border-radius: 15px;
 }
 
-.human-live .body:before, .human-footer .body:before {
+.human-footer .body:before {
 	content: " ";
 	display: block;
 	height: 100%;
@@ -152,7 +167,7 @@ body {
 	transform: rotateZ(15deg);
 	-moz-transform: rotateZ(15deg);
 }
-.human-live .body:after, .human-footer .body:after {
+.human-footer .body:after {
 	content: " ";
 	display: block;
 	height: 100%;
@@ -167,7 +182,7 @@ body {
 	-moz-transform: rotateZ(-15deg);
 }
 
-.human-live .legs, .human-footer .legs {
+.human-footer .legs {
 	height: 100%;
 	width: 36%;
 	background-color: transparent;
@@ -176,7 +191,7 @@ body {
 	left: 30%;
 }
 
-.human-live .legs:before, .human-footer .legs:before {
+.human-footer .legs:before {
 	content: " ";
 	display: block;
 	height: 50%;
@@ -187,7 +202,7 @@ body {
 	top: -14%;
 	background-color: white;
 }
-.human-live .legs:after, .human-footer .legs:after {
+.human-footer .legs:after {
 	content: " ";
 	display: block;
 	height: 50%;
@@ -198,7 +213,7 @@ body {
 	top: -14%;
 	background-color: white;
 }
-*/
+
 .world {
 	height: 100%;
 }
@@ -210,6 +225,7 @@ body {
 	width: 100%;
 	height: 25%;
 	background-color: white;
+	padding-left: 20px;
 }
 
 .sun {

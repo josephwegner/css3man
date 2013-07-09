@@ -51,11 +51,22 @@
 			scope: {
 				human: "=human", 
 				click: "=ngClick"
+			},
+			link: function(scope, element, attrs) {
+				var possibilities = ['close', 'medium', 'far'];
+
+				scope.distance = possibilities[Math.floor(Math.random() * possibilities.length)];
+
+				setTimeout(function() {
+					element.children().css('top', -50);
+				}, 10);
+				eles.push(element);
 			}
 		};
 	});
 
 	app.controller('CSSManCtrl', function($scope, $http) {
+		eles = [];
 		$scope.userKey = randomString(5);
 
 		$scope.activeTab = 'head';
@@ -179,13 +190,31 @@
 			$scope.preview_animations_css = human.css.animations.replace(replaceKey, $scope.userKey);
 		}
 
+		$scope.humans = [];
+
 		$http.get("/api/v0/men").success(function(data, status, headers, config) {
-			$scope.humans = data;
+			var i = 0;
+
+			var drawInterval = setInterval(function() {
+				if(i < data.length) {
+					$scope.addMan(data[i]);
+				} else {
+					clearInterval(drawInterval);
+				}
+
+
+				i++;
+			}, 100);
 		});
+
+		$scope.addMan = function(man) {
+			$scope.humans.push(man);
+			$scope.$apply();
+		}
 	});
 
 	function randomString(len) {
-		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 		var str = "";
 		for(var i=0; i<len; i++) {
