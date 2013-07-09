@@ -47,6 +47,15 @@ mongoose.connect configs.mongoURL, (err) ->
 				if urlParts.pathname.indexOf("/assets") is 0
 					#Attempting to grab static assets.  Do that
 					serveStatic req, res
+
+				else if urlParts.pathname == "/favicon.ico"
+					fs.readFile path.join(__dirname, "public", "favicon.ico"), (err, favicon) ->
+						if err
+							res.statusCode = 404
+							res.end()
+
+						else
+							res.end favicon
 	
 				else
 					#Default, serve layout
