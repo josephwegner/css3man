@@ -33,11 +33,10 @@
 		       	}
 
 		        el = typeof(scope.selector) !== "undefined"  ? 
-		        	$compile( '<style> '+scope.selector+' { '+scope.styles+' } </style>' )( scope ) :
-		        	$compile( '<style>'+scope.styles+'</style>' )( scope )
+		        	'<style> '+scope.selector+' { '+scope.styles+' } </style>' :
+		        	'<style>'+scope.styles+'</style>'
 
-		        element.html("");
-		        element.append( el );
+		        element.html(el);
 	    	}
 	      })
 	    }
